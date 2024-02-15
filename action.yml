@@ -1,0 +1,46 @@
+name: 'WireGuard Session'
+description: 'Open a connection to a WireGuard session for your GitHub Actions'
+author: 'Your name or organization here'
+
+branding:
+  icon: 'heart'
+  color: 'red'
+
+inputs:
+  wg-client:
+    type: string
+    description: Filepath to a `.conf` client [required or `wg-client-b64`]
+    required: false
+  wg-client-b64:
+    type: string
+    description: Base64 `.conf` file contents [required or `wg-client`]
+    required: false
+  log-save-as:
+    type: string
+    description: Specifiy a name to save the WireGuard logs as an artifact
+    required: false
+  log-filepath:
+    type: string
+    description: Filepath for saving the WireGuard logs to
+    required: false
+    default: '/tmp/wg.log'
+  timeout-address:
+    type: string
+    description: The (private) hostname or ip for timeout testing connection to
+    required: true
+  timeout-seconds:
+    type: number
+    description: Seconds before assuming the session & connection has failed
+    required: false
+    default: 180
+
+# outputs:
+#   pid:
+#     type: string
+#     description: The process ID of the WireGuard client running the session
+
+runs:
+  using: node20
+  main: dist/main/index.js
+  post: dist/post/index.js
+  pre: dist/pre/index.js
