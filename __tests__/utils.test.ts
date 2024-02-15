@@ -32,7 +32,7 @@ describe('Utils', () => {
     ]
     inputs.forEach(input => {
       return match(input)
-        .with(P.union('ovpn-client', 'ovpn-client-b64', 'log-save-as'), n =>
+        .with(P.union('wg-client', 'wg-client-b64', 'log-save-as'), n =>
           expect(getInput(n)).toBeUndefined()
         )
         .with('log-filepath', n => expect(getInput(n)).toBe('/tmp/openvpn.log'))

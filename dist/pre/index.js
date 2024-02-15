@@ -1,4 +1,3 @@
-import { createRequire as __WEBPACK_EXTERNAL_createRequire } from "module";
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -25970,23 +25969,28 @@ exports.run = void 0;
 const core = __importStar(__nccwpck_require__(9093));
 const exec_1 = __nccwpck_require__(7775);
 const util_1 = __nccwpck_require__(8438);
-// import { getInput } from './util'
 const autoYes = ['--yes', '--force-yes'];
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
-    core.info('Starting Pre-OpenVPN setup');
+    core.info('Starting Pre-WireGuard setup');
     try {
         await (0, exec_1.exec)('sudo apt-get', ['update', ...autoYes]);
         await (0, exec_1.exec)('sudo apt-get', [
             'install',
-            'openvpn',
+            'wireguard',
             '--no-install-recommends',
             ...autoYes
         ]);
-        return core.info('Pre-OpenVPN setup complete');
+        await (0, exec_1.exec)('sudo apt-get', [
+            'install',
+            'resolvconf',
+            '--no-install-recommends',
+            ...autoYes
+        ]);
+        return core.info('Pre-WireGuard setup complete');
     }
     catch (error) {
         return core.setFailed((0, util_1.errorToMessage)(error));
@@ -26033,8 +26037,8 @@ const ts_pattern_1 = __nccwpck_require__(4502);
 function getInput(name) {
     // Use the `name` parameter directly to fetch the corresponding input
     return (0, ts_pattern_1.match)(name)
-        .with(ts_pattern_1.P.union('ovpn-client', 'ovpn-client-b64', 'log-save-as'), n => core.getInput(n) || undefined)
-        .with('log-filepath', n => core.getInput(n) || '/tmp/openvpn.log')
+        .with(ts_pattern_1.P.union('wg-client', 'wg-client-b64', 'log-save-as'), n => core.getInput(n) || undefined)
+        .with('log-filepath', n => core.getInput(n) || '/tmp/wg.log')
         .with('timeout-address', n => core.getInput(n, { required: true }))
         .with('timeout-seconds', n => parseInt(core.getInput(n) || '180'))
         .exhaustive();
@@ -26056,7 +26060,7 @@ exports.errorToMessage = errorToMessage;
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("assert");
+module.exports = require("assert");
 
 /***/ }),
 
@@ -26064,7 +26068,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("assert");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("async_hooks");
+module.exports = require("async_hooks");
 
 /***/ }),
 
@@ -26072,7 +26076,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("async_hooks"
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("buffer");
+module.exports = require("buffer");
 
 /***/ }),
 
@@ -26080,7 +26084,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("buffer");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
+module.exports = require("child_process");
 
 /***/ }),
 
@@ -26088,7 +26092,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_proces
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("console");
+module.exports = require("console");
 
 /***/ }),
 
@@ -26096,7 +26100,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("console");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("crypto");
+module.exports = require("crypto");
 
 /***/ }),
 
@@ -26104,7 +26108,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("crypto");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("diagnostics_channel");
+module.exports = require("diagnostics_channel");
 
 /***/ }),
 
@@ -26112,7 +26116,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("diagnostics_
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("events");
+module.exports = require("events");
 
 /***/ }),
 
@@ -26120,7 +26124,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("events");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("fs");
+module.exports = require("fs");
 
 /***/ }),
 
@@ -26128,7 +26132,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("fs");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("http");
+module.exports = require("http");
 
 /***/ }),
 
@@ -26136,7 +26140,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("http");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("http2");
+module.exports = require("http2");
 
 /***/ }),
 
@@ -26144,7 +26148,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("http2");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("https");
+module.exports = require("https");
 
 /***/ }),
 
@@ -26152,7 +26156,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("https");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("net");
+module.exports = require("net");
 
 /***/ }),
 
@@ -26160,7 +26164,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("net");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:events");
+module.exports = require("node:events");
 
 /***/ }),
 
@@ -26168,7 +26172,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:events"
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:stream");
+module.exports = require("node:stream");
 
 /***/ }),
 
@@ -26176,7 +26180,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:stream"
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:util");
+module.exports = require("node:util");
 
 /***/ }),
 
@@ -26184,7 +26188,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:util");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("os");
+module.exports = require("os");
 
 /***/ }),
 
@@ -26192,7 +26196,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("os");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("path");
+module.exports = require("path");
 
 /***/ }),
 
@@ -26200,7 +26204,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("path");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("perf_hooks");
+module.exports = require("perf_hooks");
 
 /***/ }),
 
@@ -26208,7 +26212,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("perf_hooks")
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("querystring");
+module.exports = require("querystring");
 
 /***/ }),
 
@@ -26216,7 +26220,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("querystring"
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("stream");
+module.exports = require("stream");
 
 /***/ }),
 
@@ -26224,7 +26228,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("stream");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("stream/web");
+module.exports = require("stream/web");
 
 /***/ }),
 
@@ -26232,7 +26236,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("stream/web")
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("string_decoder");
+module.exports = require("string_decoder");
 
 /***/ }),
 
@@ -26240,7 +26244,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("string_decod
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("timers");
+module.exports = require("timers");
 
 /***/ }),
 
@@ -26248,7 +26252,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("timers");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("tls");
+module.exports = require("tls");
 
 /***/ }),
 
@@ -26256,7 +26260,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("tls");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("url");
+module.exports = require("url");
 
 /***/ }),
 
@@ -26264,7 +26268,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("url");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util");
+module.exports = require("util");
 
 /***/ }),
 
@@ -26272,7 +26276,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util");
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util/types");
+module.exports = require("util/types");
 
 /***/ }),
 
@@ -26280,7 +26284,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util/types")
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("worker_threads");
+module.exports = require("worker_threads");
 
 /***/ }),
 
@@ -26288,7 +26292,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("worker_threa
 /***/ ((module) => {
 
 "use strict";
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
+module.exports = require("zlib");
 
 /***/ }),
 
