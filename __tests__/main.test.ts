@@ -7,6 +7,7 @@ import {
   setupPingMock
 } from './mocking.test'
 import * as main from '../src/main'
+import * as util from '../src/util'
 import * as b64 from 'js-base64'
 import { defaultInputs } from './utils.test'
 
@@ -94,7 +95,7 @@ describe('Action Main', () => {
     fs.promises.mkdir.mockResolvedValue(true)
     fs.promises.writeFile.mockResolvedValue(true)
 
-    expect(await main.getClientPath()).toBe('/tmp/client.ovpn')
+    expect(await util.getClientPath()).toBe('/tmp/client.ovpn')
     expect(core.getInput).toBeCalledWith('ovpn-client-b64')
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       '/tmp/client.ovpn',
@@ -118,7 +119,7 @@ describe('Action Main', () => {
     })
     fs.promises.mkdir.mockRejectedValueOnce(new Error('MkDir error'))
 
-    await expect(main.getClientPath()).rejects.toThrowError(
+    await expect(util.getClientPath()).rejects.toThrowError(
       'Error during write for OpenVPN client from Base64: MkDir error'
     )
   })
@@ -127,7 +128,7 @@ describe('Action Main', () => {
     core.getInput.mockReturnValue('')
     fs.promises.mkdir.mockRejectedValueOnce(new Error('MkDir error'))
 
-    await expect(main.getClientPath()).rejects.toThrowError(
+    await expect(util.getClientPath()).rejects.toThrowError(
       "No clients were given, must specify either `ovpn-client` or `ovpn-client-b64` in action's inputs"
     )
   })

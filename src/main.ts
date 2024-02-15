@@ -1,8 +1,6 @@
 import * as core from '@actions/core'
-import * as b64 from 'js-base64'
 import * as ping from 'ping'
-import { promises as fs } from 'fs'
-import { errorToMessage, getInput } from './util'
+import { errorToMessage, getClientPath, getInput } from './util'
 import { exec } from '@actions/exec'
 
 /**
@@ -22,43 +20,6 @@ export async function run(): Promise<void> {
   } catch (error) {
     core.setFailed(errorToMessage(error))
   }
-}
-
-/**
- * Returns the path to the WireGuard client file (created too if base64).
- * Returning an error if inputs are invalid (or file can't be created).
- * @returns {string} The path to the WireGuard client file.
- */
-export async function getClientPath(): Promise<string> {
-  let client = getInput('wg-client')
-  if (client) {
-    return client
-  }
-
-  const encodedClient = getInput('wg-client-b64')
-  console.log('encodedClient:', encodedClient)
-  if (encodedClient) {
-    const path = '/tmp'
-    const filepath = `${path}/wg.conf`
-    const decoded = b64.decode(encodedClient)
-
-    try {
-      await fs.mkdir(path, { recursive: true })
-      await fs.writeFile(filepath, decoded, { flag: 'w+', encoding: 'utf8' })
-    } catch (error) {
-      const msg = errorToMessage(error)
-
-      throw new Error(
-        `Error during write for WireGuard client from Base64: ${msg}`
-      )
-    }
-
-    return filepath
-  }
-
-  throw new Error(
-    "No clients were given, must specify either `wg-client` or `wg-client-b64` in action's inputs"
-  )
 }
 
 /**

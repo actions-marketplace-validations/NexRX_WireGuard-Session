@@ -27566,11 +27566,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.pingUntilSuccessful = exports.getClientPath = exports.run = void 0;
+exports.pingUntilSuccessful = exports.run = void 0;
 const core = __importStar(__nccwpck_require__(9093));
-const b64 = __importStar(__nccwpck_require__(5452));
 const ping = __importStar(__nccwpck_require__(8496));
-const fs_1 = __nccwpck_require__(7147);
 const util_1 = __nccwpck_require__(8438);
 const exec_1 = __nccwpck_require__(7775);
 /**
@@ -27580,7 +27578,7 @@ const exec_1 = __nccwpck_require__(7775);
 async function run() {
     core.info('Stating WireGuard connection process');
     try {
-        const path = getClientPath();
+        const path = (0, util_1.getClientPath)();
         await (0, exec_1.exec)('sudo wg-quick', ["up", await path]);
         const addr = (0, util_1.getInput)('timeout-address');
         const timeout = (0, util_1.getInput)('timeout-seconds');
@@ -27591,35 +27589,6 @@ async function run() {
     }
 }
 exports.run = run;
-/**
- * Returns the path to the WireGuard client file (created too if base64).
- * Returning an error if inputs are invalid (or file can't be created).
- * @returns {string} The path to the WireGuard client file.
- */
-async function getClientPath() {
-    let client = (0, util_1.getInput)('wg-client');
-    if (client) {
-        return client;
-    }
-    const encodedClient = (0, util_1.getInput)('wg-client-b64');
-    console.log('encodedClient:', encodedClient);
-    if (encodedClient) {
-        const path = '/tmp';
-        const filepath = `${path}/wg.conf`;
-        const decoded = b64.decode(encodedClient);
-        try {
-            await fs_1.promises.mkdir(path, { recursive: true });
-            await fs_1.promises.writeFile(filepath, decoded, { flag: 'w+', encoding: 'utf8' });
-        }
-        catch (error) {
-            const msg = (0, util_1.errorToMessage)(error);
-            throw new Error(`Error during write for WireGuard client from Base64: ${msg}`);
-        }
-        return filepath;
-    }
-    throw new Error("No clients were given, must specify either `wg-client` or `wg-client-b64` in action's inputs");
-}
-exports.getClientPath = getClientPath;
 /**
  * Tries to connect to the given address and port until successful or until the timeout is reached.
  * @param {string} ip - The IP address to connect to.
@@ -27679,8 +27648,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.errorToMessage = exports.getInput = void 0;
+exports.getClientPath = exports.errorToMessage = exports.getInput = void 0;
 const core = __importStar(__nccwpck_require__(9093));
+const fs_1 = __nccwpck_require__(7147);
+const b64 = __importStar(__nccwpck_require__(5452));
 const ts_pattern_1 = __nccwpck_require__(4502);
 /** Returns a parsed (If needed) value of the types with the correct type */
 function getInput(name) {
@@ -27701,6 +27672,35 @@ function errorToMessage(error) {
     return 'Unknown Error';
 }
 exports.errorToMessage = errorToMessage;
+/**
+ * Returns the path to the WireGuard client file (created too if base64).
+ * Returning an error if inputs are invalid (or file can't be created).
+ * @returns {string} The path to the WireGuard client file.
+ */
+async function getClientPath() {
+    let client = getInput('wg-client');
+    if (client) {
+        return client;
+    }
+    const encodedClient = getInput('wg-client-b64');
+    console.log('encodedClient:', encodedClient);
+    if (encodedClient) {
+        const path = '/tmp';
+        const filepath = `${path}/wg.conf`;
+        const decoded = b64.decode(encodedClient);
+        try {
+            await fs_1.promises.mkdir(path, { recursive: true });
+            await fs_1.promises.writeFile(filepath, decoded, { flag: 'w+', encoding: 'utf8' });
+        }
+        catch (error) {
+            const msg = errorToMessage(error);
+            throw new Error(`Error during write for WireGuard client from Base64: ${msg}`);
+        }
+        return filepath;
+    }
+    throw new Error("No clients were given, must specify either `wg-client` or `wg-client-b64` in action's inputs");
+}
+exports.getClientPath = getClientPath;
 
 
 /***/ }),

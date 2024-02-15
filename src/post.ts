@@ -2,8 +2,7 @@ import * as core from '@actions/core'
 import { existsSync } from 'fs'
 import { exec } from '@actions/exec'
 import { DefaultArtifactClient } from '@actions/artifact'
-import { getClientPath } from './main'
-import { errorToMessage, getInput } from './util'
+import { getClientPath, errorToMessage, getInput } from './util'
 
 /**
  * The post function for the action.
@@ -13,7 +12,7 @@ export async function run(): Promise<void> {
   core.info('Beginning post WireGuard cleanup')
   try {
     const path = getClientPath()
-    await exec('sudo wg-quick', ["down", await path])
+    await exec('sudo wg-quick', ['down', await path])
 
     const artifactName = getInput('log-save-as')
     if (await logExists()) {
