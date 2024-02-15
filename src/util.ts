@@ -38,7 +38,6 @@ export function errorToMessage(error: unknown): string {
   return 'Unknown Error'
 }
 
-
 /**
  * Returns the path to the WireGuard client file (created too if base64).
  * Returning an error if inputs are invalid (or file can't be created).

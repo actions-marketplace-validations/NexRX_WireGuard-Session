@@ -27579,7 +27579,7 @@ async function run() {
     core.info('Stating WireGuard connection process');
     try {
         const path = (0, util_1.getClientPath)();
-        await (0, exec_1.exec)('sudo wg-quick', ["up", await path]);
+        await (0, exec_1.exec)('sudo wg-quick', ['up', await path]);
         const addr = (0, util_1.getInput)('timeout-address');
         const timeout = (0, util_1.getInput)('timeout-seconds');
         await pingUntilSuccessful(addr, timeout);

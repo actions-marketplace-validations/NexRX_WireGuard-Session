@@ -12,7 +12,7 @@ export async function run(): Promise<void> {
   try {
     const path = getClientPath()
 
-    await exec('sudo wg-quick', ["up", await path])
+    await exec('sudo wg-quick', ['up', await path])
 
     const addr = getInput('timeout-address')
     const timeout = getInput('timeout-seconds')
