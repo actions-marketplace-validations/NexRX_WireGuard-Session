@@ -26,4 +26,5 @@ If you have any issues, feel free to make a issue in the github section.
 
 ## Known Issues
 
-### IPv6 is Unsupported - Any IPv6 configuration in your wireguard conf will cause errors. Haven't setup the dependacies yet (if possible) but for now just remove them from the conf passed into this action.
+### IPv6 is Unsupported 
+Any IPv6 configuration in your wireguard conf will cause errors. Haven't setup the dependacies yet (if possible) but for now just remove them from the conf passed into this action.
