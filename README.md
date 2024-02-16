@@ -19,7 +19,7 @@ Setup a WireGuard connection for the session of your Action's job with automatic
 
     timeout-seconds: 180 # Seconds before assuming the session & connection has failed [Example is default]
 ```
-You may be wondering why `timeout-address` is required. This is to be certain that a connection (to a device) is guarented if this actions main run succeeds. You can choose the server itself and that is enough. The server is usually at `10.8.0.1` by default.
+You may be wondering why `timeout-address` is required. This is to be certain that a connection (to a device) is guarented if this actions main run succeeds. You can choose the server itself and that is enough.
 
 ## Issues?
 If you have any issues, feel free to make a issue in the github section.
