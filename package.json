@@ -48,7 +48,7 @@
     "@actions/exec": "^1.1.1",
     "js-base64": "^3.7.6",
     "mock-fs": "^5.2.0",
-    "ping": "^0.4.4",
+    "ping": "^1.0.0",
     "ping-wrapper": "^0.0.3",
     "ts-pattern": "^5.0.6"
   },
